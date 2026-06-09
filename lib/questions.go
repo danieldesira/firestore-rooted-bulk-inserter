@@ -1,23 +1,23 @@
 package lib
 
 type Question struct {
-	subjectId string
-	tag       string
-	question  string
-	options   [4]struct {
-		answer    string
-		isCorrect bool
-	}
+	SubjectId string `firestore:"subjectId"`
+	Tag       string `firestore:"tag"`
+	Question  string `firestore:"question"`
+	Options   [4]struct {
+		Answer    string `firestore:"answer"`
+		IsCorrect bool   `firestore:"isCorrect"`
+	} `firestore:"options"`
 }
 
 func MapEntryToQuestion(entry []string) Question {
 	var question Question
-	question.subjectId = entry[0]
-	question.tag = entry[1]
-	question.question = entry[2]
+	question.SubjectId = entry[0]
+	question.Tag = entry[1]
+	question.Question = entry[2]
 	for i := 3; i < len(entry); i++ {
-		question.options[i-3].answer = entry[i]
+		question.Options[i-3].Answer = entry[i]
 	}
-	question.options[0].isCorrect = true
+	question.Options[0].IsCorrect = true
 	return question
 }

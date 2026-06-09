@@ -39,11 +39,20 @@ func main() {
 		return
 	}
 
+	insertedCount := 0
 	for _, record := range records {
-		fmt.Println(lib.MapEntryToQuestion(record))
+		question := lib.MapEntryToQuestion(record)
+
+		// Insert document into Firestore under question collection with automatic doc ID
+		_, err := client.Collection("question").NewDoc().Set(ctx, question)
+		if err != nil {
+			fmt.Printf("Error inserting question %v: %v\n", question, err)
+			continue
+		}
+		insertedCount++
 	}
 
-	fmt.Println("Firestore client created successfully")
+	fmt.Printf("Successfully inserted %d questions into Firestore\n", insertedCount)
 
 	defer file.Close()
 	defer client.Close()
