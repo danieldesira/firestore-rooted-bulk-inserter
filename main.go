@@ -1,12 +1,11 @@
 package main
 
 import (
-	"context"
-	"encoding/csv"
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 
-	"cloud.google.com/go/firestore"
 	"github.com/danieldesira/firestore-rooted-bulk-inserter/lib"
 	"github.com/joho/godotenv"
 )
@@ -18,41 +17,26 @@ func main() {
 		return
 	}
 
-	ctx := context.Background()
+	fmt.Println("Rooted Bulk Importer")
+	fmt.Println("--------------------")
+	fmt.Println()
 
-	client, err := firestore.NewClient(ctx, os.Getenv("FIRESTORE_PROJECT_ID"))
+	fmt.Println("Enter 1: Export")
+	fmt.Println("Enter 2: Import")
+
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
 	if err != nil {
-		fmt.Println("Error creating Firestore client:", err)
+		fmt.Println("Error reading input:", err)
 		return
 	}
 
-	file, err := os.Open("questions.csv")
-	if err != nil {
-		fmt.Println("Unable to open questions.csv:", err)
-		return
+	switch strings.TrimSpace(input) {
+	case "1":
+		lib.ExportCsv()
+	case "2":
+		lib.ImportCsv()
+	default:
+		fmt.Println("No option selected...")
 	}
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		fmt.Println("Error reading CSV:", err)
-		return
-	}
-
-	insertedCount := 0
-	for _, record := range records {
-		question := lib.MapEntryToQuestion(record)
-
-		_, err := client.Collection("question").NewDoc().Set(ctx, question)
-		if err != nil {
-			fmt.Printf("Error inserting question %v: %v\n", question, err)
-			continue
-		}
-		insertedCount++
-	}
-
-	fmt.Printf("Successfully inserted %d questions into Firestore\n", insertedCount)
-
-	defer file.Close()
-	defer client.Close()
 }
