@@ -31,15 +31,14 @@ func MapEntryToQuestion(entry []string) Question {
 }
 
 func MapQuestionToEntry(question Question) []string {
-	entry := [8]string{
-		question.SubjectId,
-		question.Tag,
-		question.Question,
-		question.Visual,
-		question.Options[0].Answer,
-		question.Options[1].Answer,
-		question.Options[2].Answer,
-		question.Options[3].Answer,
+	entry := [8]string{}
+	entry[subjectIndex] = question.SubjectId
+	entry[tagIndex] = question.Tag
+	entry[questionIndex] = question.Question
+	entry[visualIndex] = question.Visual
+	for i := 0; i < len(question.Options); i++ {
+		entry[optionIndex+i] = question.Options[i].Answer
 	}
+
 	return entry[:]
 }
