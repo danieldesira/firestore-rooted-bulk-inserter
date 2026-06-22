@@ -17,26 +17,33 @@ func main() {
 		return
 	}
 
-	fmt.Println("Rooted Bulk Importer")
-	fmt.Println("--------------------")
-	fmt.Println()
+	isRunning := true
 
-	fmt.Println("Enter 1: Export")
-	fmt.Println("Enter 2: Import")
+	for isRunning {
+		fmt.Println("Rooted Bulk Importer")
+		fmt.Println("--------------------")
+		fmt.Println()
 
-	reader := bufio.NewReader(os.Stdin)
-	input, err := reader.ReadString('\n')
-	if err != nil {
-		fmt.Println("Error reading input:", err)
-		return
-	}
+		fmt.Println("Enter 1: Export")
+		fmt.Println("Enter 2: Import")
+		fmt.Println("Enter 0: Exit")
 
-	switch strings.TrimSpace(input) {
-	case "1":
-		lib.ExportCsv()
-	case "2":
-		lib.ImportCsv()
-	default:
-		fmt.Println("No option selected...")
+		reader := bufio.NewReader(os.Stdin)
+		input, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			return
+		}
+
+		switch strings.TrimSpace(input) {
+		case "1":
+			lib.ExportCsv()
+		case "2":
+			lib.ImportCsv()
+		case "0":
+			isRunning = false
+		default:
+			fmt.Println("No option selected...")
+		}
 	}
 }
