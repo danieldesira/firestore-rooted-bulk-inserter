@@ -50,8 +50,8 @@ SubjectId,Tag,Question,Visual,Option1,Option2,Option3,Option4
 ### Example:
 
 ```csv
-math,algebra,What is 2+2?,4,3,5,6
-science,physics,What is the speed of light?,299792458,300000000,100000000,50000000
+math,algebra,What is 2+2?,,4,3,5,6
+science,physics,What is the speed of light?,,299792458,300000000,100000000,50000000
 ```
 
 The first option (option1) is automatically marked as the correct answer.
