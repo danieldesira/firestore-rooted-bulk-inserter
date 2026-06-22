@@ -33,7 +33,7 @@ go run main.go
 The `questions.csv` file should have the following structure:
 
 ```
-subjectId,tag,question,option1,option2,option3,option4
+SubjectId,Tag,Question,Visual,Option1,Option2,Option3,Option4
 ```
 
 ### Columns:
@@ -41,6 +41,7 @@ subjectId,tag,question,option1,option2,option3,option4
 - **subjectId**: Identifier for the subject/category
 - **tag**: Tag or topic label for the question
 - **question**: The question text
+- **visual**: Base64 image
 - **option1**: First answer option (marked as correct)
 - **option2**: Second answer option
 - **option3**: Third answer option
