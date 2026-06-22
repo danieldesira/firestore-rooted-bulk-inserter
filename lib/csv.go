@@ -113,7 +113,17 @@ func ExportCsv() {
 	defer writer.Flush()
 
 	exportedCount := 0
-	writer.Write([]string{"Subject", "Tag", "Question", "Visual", "Option 1 (Correct)", "Option 2", "Option 3", "Option 4"})
+	header := [8]string{}
+	header[subjectIndex] = "Subject"
+	header[tagIndex] = "Tag"
+	header[questionIndex] = "Question"
+	header[visualIndex] = "Visual"
+	header[optionIndex] = "Option 1 (Correct)"
+	header[optionIndex+1] = "Option 2"
+	header[optionIndex+2] = "Option 3"
+	header[optionIndex+3] = "Option 4"
+	writer.Write(header[:])
+
 	for _, doc := range docs {
 		var question Question
 		if err := doc.DataTo(&question); err != nil {
